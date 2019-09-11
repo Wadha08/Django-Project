@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock title %}
+
+{% block content %}
+<a class="nav-link create_btn" href="{% url 'events:create' %}">Create Event</a>
+  <div class = 'container'>
+  <p class = "table_title" style = "margin-top: 50px;"> Events by me </p>
+  <table class="table table-bordered table-dark" style="margin-bottom: 50px;">
+    <thead>
+      <tr>
+         <th scope="col">Title </th>
+        <th scope="col">Location </th>
+        <th scope="col">Date </th>
+        <th scope="col">time </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for event in request.user.organizer.all %}
+        <tr>
+          <td> {{event.title}} </td>
+          <td> {{event.location}}</td>
+          <td> {{event.date}} </td>
+           <td> {{event.time}} </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+
+  <div class = 'container'>
+    <p class = "table_title"> Attended by me </p>
+    <table class="table table-bordered table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Location</th>
+          <th scope="col">Date </th>
+          <th scope="col">time </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in past_events %}
+          <tr> 
+            <td> {{e.event.title}} </td>
+            <td> {{e.event.location}}</td>
+            <td> {{e.event.date}} </td>
+            <td> {{e.event.time}} </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class = 'container'>
+    <p class = "table_title"> To be attended </p>
+    <table class="table table-bordered table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Location</th>
+          <th scope="col">Date </th>
+          <th scope="col">Time </th>
+          <th scope="col">Cancel </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in upcoming_events %}
+          <tr> 
+            <td> {{e.event.title}} </td>
+            <td> {{e.event.location}}</td>
+            <td> {{e.event.date}} </td>
+            <td> {{e.event.time}} </td>
+            <td> <a class="nav-link create_btn" href="{% url 'events:cancel' e.id %}">Cancel booking</a> </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock content %}

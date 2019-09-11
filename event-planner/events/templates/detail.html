@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Detail{% endblock title %}
+
+{% block content %}
+
+<br>
+<div class="card">
+  <h5 class="card-header">Event Info</h5>
+  <div class="card-body">
+    <h5 class="card-title">Title: {{event.title}}</h5>
+    <p class="card-text"> Description: {{event.description}}</p>
+    <p class="card-text"> Location: {{event.location}}</p>
+    <p class="card-text"> Date: {{event.date}}</p>
+    <p class="card-text"> Time: {{event.time}}</p>
+    <p class="card-text"> Seats: {{event.seats}}</p>
+    <p class="card-text"> Seats Left: {{event.get_seats_left}}</p>
+    {% if request.user == event.owner %}
+        <a href="{% url 'events:edit' event.id %}" class="btn" style="background-color: #FFA500; color: #000034;"> edit </a>
+    {%endif %}
+  </div>
+</div>
+ {% if request.user == event.owner %}
+<table class="table">
+  <thead>
+
+    <tr>
+       <th scope="col">Username</th>
+      <th scope="col">Seats</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for u in event.bookings.all %}
+      <tr>
+        <td> {{u.user.username}} </td>
+        <td> {{u.num_seats}} </td>
+      </tr>
+    {% endfor %}
+  
+  </tbody>
+</table>
+{%endif %}
+{% endblock content %}

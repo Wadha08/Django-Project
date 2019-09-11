@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+	<form action="{% url 'events:edit' event.id %}" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{form|crispy}}
+		<input type="submit" value="edit" class="btn" style="background-color: #e3f2fd; color: white;">
+	</form>
+{% endblock content %}
